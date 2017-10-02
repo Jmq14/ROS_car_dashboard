@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple Polylines</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+</head>
+
+<body>
+  <div id="map"></div>
+
+  <script>
+    window.path = [];
+
+	function initMap() {
+        window.map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 18,
+          center: {lat: 37.9199501918, lng: -122.318354525},
+//          mapTypeId: 'terrain'
+        });
+
+        var data = [
+			{lat: 37.9209373186, lng: -122.318548743},
+			{lat: 37.920938123, lng: -122.318557496},
+			{lat: 37.9209389052, lng: -122.31856635},
+			{lat: 37.9209396238, lng: -122.318575381},
+			{lat: 37.9209401122, lng: -122.318584519},
+			{lat: 37.9209406857, lng: -122.318593729},
+			{lat: 37.9209411751, lng: -122.318603022},
+			{lat: 37.9209415772, lng: -122.318612469},
+			{lat: 37.9209419439, lng: -122.318622097},
+			{lat: 37.9209421881, lng: -122.318631836},
+			{lat: 37.920942363, lng: -122.318641781},
+			{lat: 37.9209425893, lng: -122.318651685},
+			{lat: 37.9209428553, lng: -122.31866162},
+			{lat: 37.9209430693, lng: -122.3186718},
+			{lat: 37.9209431768, lng: -122.318682071},
+			{lat: 37.9209432971, lng: -122.31869246},
+		];
+
+
+    } 
+
+    function updateLocation(a, b) {
+
+        var new_pos = {lat: parseFloat(a), lng: parseFloat(b)};
+        window.map.setCenter(new_pos);
+
+        window.path.push(new_pos);
+
+        if (window.path.length > 2) {
+            window.path.shift();
+        }
+        
+        if (window.path.length >= 2) {
+           var Line = new google.maps.Polyline({
+             path: window.path,
+             geodesic: true,
+             strokeColor: '#FF0000',
+             strokeOpacity: 1.0,
+             strokeWeight: 5
+           });
+
+           Line.setMap(window.map);
+        }
+
+    }
+  </script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"></script>
+
+</body>
+</html>

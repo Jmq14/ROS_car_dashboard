@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple Polylines</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #main {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script src="echarts.min.js"></script>
+</head>
+
+<body>
+    <div id="main"></div>
+    <script>
+        var main = document.getElementById('main');
+        var myChart = echarts.init(main);
+		var data = [];
+        
+        function new_velocity(t, v) {
+            t1 = new Date(parseFloat(t) / 1000.0);
+            if (data.length>100) {
+                data.shift();
+            }
+            data.push([t1, parseFloat(v)]);
+
+		    myChart.setOption({
+		        series: [{
+		            data: data
+		        }]
+		    });
+        }
+
+		var option = {
+		    title: {
+		        text: 'velocity'
+		    },
+		    xAxis: {
+		        type: 'time',
+		        splitLine: {
+		            show: false
+		        }
+		    },
+		    yAxis: {
+		        type: 'value',
+		        boundaryGap: [0, '100%'],
+		        splitLine: {
+		            show: false
+		        }
+		    },
+		    series: [{
+		        name: 'data',
+		        type: 'line',
+		        showSymbol: false,
+		        hoverAnimation: false,
+		        data: data
+		    }]
+		};
+		
+        myChart.setOption(option);
+    </script>
+</body>
+
