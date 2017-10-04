@@ -2,9 +2,15 @@
 This is a ROS package to visualize the sensor data, control signals etc. from Berkeley DeepDrive autonomously driving car. 
 
 ## Installation
-```
+```shell
+# download
 cd dbw_ws/src
 git clone git@github.com:Jmq14/ROS_car_dashboard.git
+
+# rename package to 'monitor' or it won't build and run correctly
+mv ROS_car_dashboard monitor
+
+# build
 cd ../
 catkin_make
 source devel/setup.bash
