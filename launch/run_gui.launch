@@ -1,0 +1,10 @@
+<launch>
+
+	<param name="use_sim_time" value="true" />
+	<node name="rosbag" pkg="rosbag" type="play" args=" --loop --clock /media/nvidia/bdd_ssd_0/BDD_data/car/test1/calib_2017-07-18-16-02-58_0.bag"/>
+
+	<node name="tf" pkg="tf" type="static_transform_publisher" ns="camera" args="-0.05937507 -0.48187289 -0.26464405  5.41868013  4.49854285 2.46979746 world camera 10"/>
+	<node name="tf" pkg="tf" type="static_transform_publisher" ns="velodyne" args="0 0 0 0 0 0 world velodyne 10"/>
+
+    <node name="monitor" type="run_gui.py" pkg="monitor" />
+</launch>
