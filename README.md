@@ -24,11 +24,11 @@ roscore
 rosbag play [bag file]
 
 # open dashboard
-rosrun ROS_car_dashboard run_gui.py
+rosrun monitor run_gui.py
 ```
 or
 ```shell
-roslaunch ROS_car_dashboard run_gui.launch
+roslaunch monitor run_gui.launch
 ```
 
 ## Components
