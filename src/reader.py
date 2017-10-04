@@ -22,8 +22,7 @@ class Reader(QtCore.QObject):
         
         rospy.init_node('monitor', anonymous=True) 
 
-        #self.left_camera  = '/left_camera/pg_16492265/image_color_flipped/compressed'
-        self.left_camera  = '/detect' 
+        self.left_camera  = '/left_camera/pg_16492265/image_color_flipped/compressed'
         self.right_camera = '/right_camera/pg_16492281/image_color_flipped/compressed'
         self.compressed = True
 
@@ -76,19 +75,16 @@ class Reader(QtCore.QObject):
     def left_camera_sender(self, data):
         # data
 
-        # if self.compressed:
-        #     np_arr = np.fromstring(data.data, np.uint8)
-        #     cv_image = cv2.imdecode(np_arr, 1)
-        # else:
-        #     cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
-        cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
+        if self.compressed:
+            np_arr = np.fromstring(data.data, np.uint8)
+            cv_image = cv2.imdecode(np_arr, 1)
+        else:
+            cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
         
         cv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
-        #cv_image = cv2.resize(cv_image, (320, 320))
 
         self.emit(QtCore.SIGNAL("left_img"), cv_image)
         self.emit(QtCore.SIGNAL("left_img_timestamp"), str(data.header.stamp))
-        # self.emit(QtCore.SIGNAL("left_img"), data)
 
     def right_camera_sender(self, data):
         # data
@@ -100,7 +96,6 @@ class Reader(QtCore.QObject):
             cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
         
         cv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
-        #cv_image = cv2.resize(cv_image, (320, 320))
 
         self.emit(QtCore.SIGNAL("right_img"), cv_image)
         self.emit(QtCore.SIGNAL("right_img_timestamp"), str(data.header.stamp))
