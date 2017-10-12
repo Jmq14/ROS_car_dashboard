@@ -1,7 +1,7 @@
 # ROS_car_dashboard
 This is a ROS package to visualize the sensor data, control signals etc. from Berkeley DeepDrive autonomously driving car. 
 
-## Requirments
+## Requirements
 - [ROS kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu)
 - [dbw_mkz_ros](https://bitbucket.org/DataspeedInc/dbw_mkz_ros/src/30b70190e8560d501b761b59c0ca508b57e69133/ROS_SETUP.md?at=default&fileviewer=file-view-default)
 - [pyqt4](https://www.saltycrane.com/blog/2008/01/how-to-install-pyqt4-on-ubuntu-linux/)
