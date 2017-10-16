@@ -32,8 +32,10 @@ class Reader(QtCore.QObject):
         self.steer        = '/vehicle/steering_report'
         self.wheel_speed  = '/vehicle/wheel_speed_report'
         self.nmea_gps     = '/nmea_sentence'
+        self.lidar        = '/velodyne_points'
 
     	self.clock        = '/clock'
+
 
         # control fps
         self.left_frame_count = 0
@@ -67,6 +69,9 @@ class Reader(QtCore.QObject):
 
         rospy.Subscriber(self.nmea_gps,
                 Sentence, self.nmea_gps_sender)
+
+        rospy.Subscriber(self.lidar,
+                PointCloud2, self.lidar_sender)
 
         rospy.Subscriber(self.clock, Clock, self.time_sender)
 
@@ -160,6 +165,9 @@ class Reader(QtCore.QObject):
                 
                 self.emit(QtCore.SIGNAL("gps"), 
                         "{} {} {}".format(status, latitude, longitude))
+
+    def lidar_sender(self, data):
+        self.emit(QtCore.SIGNAL("lidar"), data)
 
     def time_sender(self, data):
         clock = data.clock

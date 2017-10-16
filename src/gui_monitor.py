@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from LIDARVisualizer import *
 from PyQt4 import QtCore, QtGui, QtWebKit
 import os, cv2
 import numpy as np
 import rospkg
+from sensor_msgs import point_cloud2
+import struct
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -39,6 +42,8 @@ class Ui_MainWindow(QtCore.QObject):
                 self.right_img_display)
         self.connect(self.reader, QtCore.SIGNAL("gps"),
                 self.gps_display)
+        self.connect(self.reader, QtCore.SIGNAL("lidar"),
+                self.lidar_display)
         self.connect(self.reader, QtCore.SIGNAL("time"),
                 self.time_display.setText)
 
@@ -112,6 +117,15 @@ class Ui_MainWindow(QtCore.QObject):
         self.webView.page().mainFrame().evaluateJavaScript(
                 "new_velocity({}, {})".format(self.steer_stamp, v))
 
+    def lidar_display(self, data):
+        self.lidar_graphicsView.load_xyzi_pc_and_render(data.data)
+        #self.lidar_graphicsView.clear_readings()
+        #for x, y, z, intensity, ring in point_cloud2.read_points( data ):
+        #    temp = [x, y, z, intensity, ring, 0, 0]
+        #    self.lidar_graphicsView.load_reading(temp)
+
+        #self.lidar_graphicsView.update()
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(1172, 860)
@@ -183,7 +197,8 @@ class Ui_MainWindow(QtCore.QObject):
         self.verticalLayout_3.setMargin(11)
         self.verticalLayout_3.setSpacing(6)
         self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
-        self.lidar_graphicsView = QtGui.QGraphicsView(self.centralWidget)
+        self.lidar_graphicsView = LIDARVisualizer(self.centralWidget) 
+        self.lidar_graphicsView.load_file('/home/garychen/Documents/1503619123111707211-cloudpoint.csv')
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
