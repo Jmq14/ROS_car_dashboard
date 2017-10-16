@@ -19,19 +19,39 @@ class LIDARVisualizer(QGLWidget):
   GL_MULTISAMPLE = 0x809D
   rot = 0.0
 
-  def __init__(self, parent):
+  def __init__(self, parent, bag=None):
+    self.bag = bag
+      
     f = QGLFormat.defaultFormat()
     f.setVersion(3, 2)
     f.setProfile(QGLFormat.CoreProfile)
     super(LIDARVisualizer, self).__init__(f, parent)
 
-    self.setWindowTitle("LIDAR Visualization")
     self.lidar =  LIDARPointCloudRenderer()
 
     self.setMouseTracking(True)
     
     self.last_x = 0
     self.last_y = 0
+
+
+    if self.bag:
+      import rosbag
+      print("Loading LIDAR data")
+      self.readings = [msg.message.data for msg in rosbag.Bag(self.bag)
+                       if msg.topic == '/velodyne_points']
+      
+      self.scrubber = QSlider(Qt.Horizontal, self)
+      self.scrubber.valueChanged.connect(self.set_frame)
+      
+      self.scrubber.setTickInterval(1)
+      self.scrubber.setMinimum(0)
+      self.scrubber.setMaximum(len(self.readings) - 1)
+
+      self.setWindowTitle("LIDAR Visualization")
+
+  def set_frame(self):
+    self.load_xyzi_pc_and_render(self.readings[self.scrubber.value()])    
 
   def initializeGL(self):
     self.lidar.init_GL()
@@ -80,24 +100,6 @@ class LIDARVisualizer(QGLWidget):
 if __name__ == '__main__':
   import rosbag
 
-
-  class LIDARScrubber(QWidget):
-    def __init__(self, readings, parent=None):
-      super(LIDARScrubber, self).__init__(parent)
-      self.readings = readings
-      self.lidar = LIDARVisualizer(self)
-
-      self.setMouseTracking(True)
-     
-      self.scrubber = QSlider(Qt.Horizontal, self)
-      self.scrubber.valueChanged.connect(self.set_frame)
-      
-      self.scrubber.setTickInterval(1)
-      self.scrubber.setMinimum(0)
-
-    def set_frame(self):
-      pass
-
   app = QApplication(sys.argv[:1])
   if len(sys.argv) == 1:
     print("Please pass in a ROS bag.")
@@ -112,11 +114,9 @@ if __name__ == '__main__':
               "This system does not support OpenGL.")
       sys.exit(0)
   
-  widget = LIDARScrubber(None)
+  widget = LIDARVisualizer(None, sys.argv[1])
   
   widget.resize(1280, 720)
-  widget.lidar.load_file(sys.argv[1])
-
 
   widget.show()
 

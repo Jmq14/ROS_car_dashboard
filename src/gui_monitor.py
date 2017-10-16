@@ -198,7 +198,6 @@ class Ui_MainWindow(QtCore.QObject):
         self.verticalLayout_3.setSpacing(6)
         self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
         self.lidar_graphicsView = LIDARVisualizer(self.centralWidget) 
-        self.lidar_graphicsView.load_file('/home/garychen/Documents/1503619123111707211-cloudpoint.csv')
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
