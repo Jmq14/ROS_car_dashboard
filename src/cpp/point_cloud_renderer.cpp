@@ -63,7 +63,7 @@ void PointCloudRenderer::render_frame(LidarReading *readings,
 
   // Buffer Data, need to make faster
   glBufferData(GL_ARRAY_BUFFER, sizeof(LidarReading) * num_readings, readings, GL_STREAM_DRAW);
-  
+
   glVertexAttribPointer(pos_location, 3, GL_FLOAT, false, sizeof(LidarReading), 0);
   glEnableVertexAttribArray(pos_location);
   

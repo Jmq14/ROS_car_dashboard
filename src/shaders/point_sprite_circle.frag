@@ -21,19 +21,27 @@ out vec4 vFragColor;
 
 vec4 heat_map_color(float dist) {
   // dist should be normalized between 0 and 1
+  float close = dist < 0.34f;
+  float medium = dist >= 0.34f && dist < 0.67f;
+  float far = dist >= 0.67f;
+    
+  vec4 close_value = ((0.34f - dist) * red + dist * yellow) / .34f;
+  vec4 medium_value = ((0.34f - dist / 2.0f) * yellow + dist * green) / .34f;
+  vec4 far_value = ((0.34f - min(dist, 1.0f) / 3.0f) * green + dist * blue) / .34f;
 
-  if (dist < 0.34f) {
-    return ((0.34f - dist) * red + dist * yellow) / .34f;
-  }
-  else if (dist < 0.67f) {
-    dist /= 2.0f;
-    return ((0.34f - dist) * yellow + dist * green) / .34f;
-  }
-  else {
-    dist = min(1.0f, dist);
-    dist /= 3.0f;
-    return ((0.34f - dist) * green + dist * blue) / .34f;
-  }
+  return close * close_value + medium * medium_value + far * far_value;
+
+  //if (dist < 0.34f) {
+  //  return ;
+  //}
+  //else if (dist < 0.67f) {
+  //  dist /= 2.0f;
+  //}
+  //else {
+  //  dist = min(1.0f, dist);
+  //  dist /= 3.0f;
+  //  return ;
+  //}
 }
 
 void main() {
@@ -44,9 +52,9 @@ void main() {
   float dist = dot(normal.xy, normal.xy);
   
   // Discard if outside circle 
-  if(dist > 1.0f) {
-    discard;
-  }
+  //if(dist > 1.0f) {
+  //  discard;
+  //}
 
   vFragColor = heat_map_color (dist_from_origin / 40.0f) ;
 
