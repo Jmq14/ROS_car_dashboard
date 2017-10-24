@@ -13,7 +13,7 @@ sources = ["point_cloud_renderer.pyx", "cpp/point_cloud_renderer.cpp",
 ext_modules=[
     Extension("point_cloud_renderer",
               sources=sources,
-              include_dirs=['../inc/'],
+              include_dirs=['./inc/'],
               libraries=["m"],
               language="c++",
               extra_compile_args=["-std=c++14", "-lGl"]

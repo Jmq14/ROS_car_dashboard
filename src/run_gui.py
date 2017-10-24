@@ -14,10 +14,10 @@ from reader import Reader
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    MainWindow = QtGui.QMainWindow()
     ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
+    ui.setupUi()
+    ui.resize(1920, 1080)
+    ui.show()
 
     reader = Reader()
     ui.setupReader(reader)

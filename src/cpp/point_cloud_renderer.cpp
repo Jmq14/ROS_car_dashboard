@@ -14,8 +14,8 @@ void PointCloudRenderer::init_GL(glm::vec3 position,
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
   // Load Shader
-  shader_program = LoadShader("../shaders/point_sprite_positioning.vert",
-                              "../shaders/point_sprite_circle.frag");
+  shader_program = LoadShader("shaders/point_sprite_positioning.vert",
+                              "shaders/point_sprite_circle.frag");
   pos_location = glGetAttribLocation(shader_program, "pos");
   modelview_location = glGetUniformLocation(shader_program, "modelview");
   projection_location = glGetUniformLocation(shader_program, "projection");

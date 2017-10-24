@@ -21,13 +21,13 @@ out vec4 vFragColor;
 
 vec4 heat_map_color(float dist) {
   // dist should be normalized between 0 and 1
-  float close = dist < 0.34f;
-  float medium = dist >= 0.34f && dist < 0.67f;
-  float far = dist >= 0.67f;
+  float close  = float(dist < 0.34f);
+  float medium = float(dist >= 0.34f && dist < 0.67f);
+  float far    = float(dist >= 0.67f);
     
   vec4 close_value = ((0.34f - dist) * red + dist * yellow) / .34f;
-  vec4 medium_value = ((0.34f - dist / 2.0f) * yellow + dist * green) / .34f;
-  vec4 far_value = ((0.34f - min(dist, 1.0f) / 3.0f) * green + dist * blue) / .34f;
+  vec4 medium_value = ((0.34f - dist / 2.0f) * yellow + dist / 2.0f * green) / .34f;
+  vec4 far_value = ((0.34f - (min(dist, 1.0f) / 3.0f)) * green + min(dist, 1.0f) / 3.0 * blue) / .34f;
 
   return close * close_value + medium * medium_value + far * far_value;
 

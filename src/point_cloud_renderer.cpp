@@ -4,15 +4,15 @@
 {
     "distutils": {
         "depends": [
-            "../inc/lidar_reading.hpp", 
-            "../inc/point_cloud_renderer.hpp"
+            "inc/lidar_reading.hpp", 
+            "inc/point_cloud_renderer.hpp"
         ], 
         "extra_compile_args": [
             "-std=c++14", 
             "-lGl"
         ], 
         "include_dirs": [
-            "../inc/"
+            "./inc/"
         ], 
         "language": "c++", 
         "libraries": [

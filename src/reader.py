@@ -47,7 +47,7 @@ class Reader(QtCore.QObject):
     def setup_subscriber(self):
 
         rospy.Subscriber(self.left_camera, 
-                Image, self.left_camera_sender, queue_size=3, buff_size=2**24)
+                CompressedImage, self.left_camera_sender, queue_size=3, buff_size=2**24)
 
         rospy.Subscriber(self.right_camera, 
                 CompressedImage, self.right_camera_sender, queue_size=3, buff_size=2**24)
